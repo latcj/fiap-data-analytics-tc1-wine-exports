@@ -1,59 +1,37 @@
-# Tech Challenge 1 - Exportações de vinhos brasileiros
+# Tech Challenge 1 · Brazilian wine exports
 
-Quais países mais compraram vinhos do Brasil entre 2009 e 2023? O projeto usa os dados da Embrapa para comparar destinos pelo valor exportado em dólares e distinguir mercados com vendas recorrentes daqueles que se destacaram em poucos anos.
+Which countries bought the most Brazilian wine between 2009 and 2023? Using Embrapa’s VitiBrasil series, this project ranks export destinations by revenue and compares sustained sales with short-lived peaks. [Analysis notebook](notebooks/tech_challenge_1.ipynb) · [Download the illustrated report](reports/wine-exports.html?raw=1)
 
-[Consultar o notebook com gráficos e tabelas](notebooks/tech_challenge_1.ipynb) · [Baixar o relatório HTML](reports/exportacoes-de-vinhos.html?raw=1)
+## Findings
 
-## Objetivo
-
-Identificar os principais mercados de destino e investigar como as exportações evoluíram ao longo de 15 anos. A análise calcula o crescimento acumulado e a taxa de crescimento anual composta (CAGR) dos 20 maiores destinos em receita. Para mercados selecionados, ajusta uma regressão linear por país e projeta valores anuais de 2024 a 2028.
-
-## Resultados
-
-| Destino | Evidência no período |
+| Destination | What the data show |
 | --- | --- |
-| Paraguai | Liderou o valor acumulado com US$ 42,86 milhões. As exportações passaram de US$ 392 mil em 2009 a US$ 5,52 milhões em 2023. |
-| Rússia | Ficou em segundo lugar com US$ 23,15 milhões. O gráfico anual mostra como as vendas se concentraram em poucos anos. |
-| Estados Unidos | O terceiro maior destino acumulou US$ 9,31 milhões. |
-| Uruguai e Haiti | Entre os 20 maiores destinos, registraram as maiores taxas de crescimento anual composto, de 47,40% e 42,94%, respectivamente. O primeiro ano com exportação positiva foi 2010 no Uruguai e 2009 no Haiti. |
+| Paraguay | Ranked first at $42.86 million. Annual exports rose from $392,000 in 2009 to $5.52 million in 2023. |
+| Russia | Ranked second at $23.15 million, with sales concentrated in 2012–2014. |
+| United States | Ranked third, with $9.31 million over the period. |
+| Uruguay and Haiti | Had the highest compound annual growth rates among the 20 largest destinations, at 47.40% and 42.94%. Uruguay’s first positive observation in the study window was in 2010, Haiti’s in 2009. |
 
-O CAGR usa os primeiros e últimos anos com receita positiva em cada país. As projeções também usam os anos com valores positivos e limitam as estimativas inferiores a zero a US$ 0. Os valores a partir de 2024 representam extrapolações do histórico encerrado em 2023.
+The notebook calculates cumulative growth and compound annual growth between the first and last years with positive revenue. For selected destinations, it fits a separate linear regression to the positive years and projects export revenue for 2024–2028, with a floor of zero. The projections reflect the history available through 2023.
 
-## Dados
+## Data
 
-Os três arquivos abrangem 1970 a 2023. Em `ExpVinho.csv`, cada linha representa um destino e cada ano aparece em duas colunas consecutivas, uma para a quantidade em quilogramas e outra para o valor em dólares. A Embrapa chama essa tabela de *Vinhos de mesa* e informa que a série inclui todos os tipos de vinho dos códigos 2204.21 e 2204.29 desde 1996. O notebook reorganiza esses pares antes de calcular os indicadores. As tabelas de produção e comercialização do Rio Grande do Sul serviram à exploração inicial. Os resultados por destino usam a tabela de exportações. [Fonte dos dados — Embrapa Uva e Vinho, VitiBrasil](https://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_06)
+The three tables cover 1970–2023. The export table records national shipments by destination. Each year has one quantity column in kilograms and one value column in US dollars. Embrapa groups the series under table wine and includes all wine types in trade codes 2204.21 and 2204.29 from 1996 onward. Production and domestic sales cover Rio Grande do Sul and provide regional context. English labels retain the source row IDs and historical destination distinctions. [Embrapa VitiBrasil export statistics](https://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_06)
 
-## Tecnologias utilizadas
+| File | Contents |
+| --- | --- |
+| [Wine exports](data/wine_exports.csv) | Annual quantities and values by destination |
+| [Production](data/production.csv) | Annual production by product and group |
+| [Domestic sales](data/domestic_sales.csv) | Annual domestic sales by product and group |
 
-Python 3.12, JupyterLab, pandas e NumPy para a preparação dos dados, Matplotlib e Seaborn para os gráficos e scikit-learn para as regressões.
+## Run locally
 
-## Estrutura do projeto
-
-```text
-data/
-  Comercio.csv
-  ExpVinho.csv
-  Producao.csv
-notebooks/
-  tech_challenge_1.ipynb
-reports/
-  exportacoes-de-vinhos.html
-requirements.txt
-```
-
-## Execução local
-
-1. Na raiz do repositório, crie um ambiente com Python 3.12 usando `python -m venv .venv`.
-2. Ative o ambiente com `.\.venv\Scripts\Activate.ps1` no PowerShell ou `source .venv/bin/activate` no Linux e no macOS.
-3. Instale as dependências e abra o notebook.
+Use Python 3.12. From the repository root, create a virtual environment, activate it, then run the following commands. In JupyterLab, choose **Run → Run All Cells** to reproduce the tables and plots. The downloaded HTML report also opens directly in a browser.
 
 ```shell
 python -m pip install -r requirements.txt
 python -m jupyterlab notebooks/tech_challenge_1.ipynb
 ```
 
-No JupyterLab, selecione **Run → Run All Cells** para recriar os gráficos e as tabelas. Para ler o relatório sem instalar Python, baixe o HTML e abra-o no navegador.
+The analysis uses pandas, NumPy, Matplotlib, Seaborn and scikit-learn.
 
-## Autor
-
-Luiz Carvalho · Pós-graduação em Data Analytics — FIAP. [Perfil no GitHub](https://github.com/latcj)
+Luiz Carvalho · FIAP postgraduate program in Data Analytics. [GitHub profile](https://github.com/latcj)
